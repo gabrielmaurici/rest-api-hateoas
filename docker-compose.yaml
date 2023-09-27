@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  api:
+    build: 
+      context: .
+    container_name: rest-api-hateoas
+    restart: always
+    tty: true
+    ports:
+      - "5105:80"
