@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "Efke4TRUKq8BhxaS2Bgu23I/hZePLcJU0ixOq0JxiO0=",
+  "Source": "rest-api-hateoas",
+  "BasePath": "_content/rest-api-hateoas",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
