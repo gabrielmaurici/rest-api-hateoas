@@ -21,7 +21,16 @@ public class ProductsController : ControllerBase
     {
         var product = new Product(model.Name, model.Price);
 
-        var productHateoas = LinksGenerateHateoas(product, "create-product");
+        List<LinkModel> rels = new()
+        {
+            new (_urlHelper.Link(nameof(CreateProduct), new { })!, rel: "self", method: "POST"),
+            new (_urlHelper.Link(nameof(GetProducts), new { })!, rel: "get-products", method: "GET"),
+            new (_urlHelper.Link(nameof(GetProduct), new { product.Id })!, rel: "get-product", method: "GET"),
+            new (_urlHelper.Link(nameof(PutProduct), new { id = product.Id })!, rel: "update-product", method: "PUT"),
+            new (_urlHelper.Link(nameof(DeleteProduct), new { id = product.Id })!, rel: "delete-product", method: "DELETE")
+        };
+
+        var productHateoas = LinksGenerateHateoas(product, rels.ToArray());
 
         return Ok(productHateoas);
     }
@@ -31,7 +40,14 @@ public class ProductsController : ControllerBase
     {
         var product = new Product("Macbook Pro M2", 15.000m);
 
-        var productHateoas = LinksGenerateHateoas(product, "get-product");
+        List<LinkModel> rels = new()
+        {
+            new (_urlHelper.Link(nameof(GetProduct), new { product.Id })!, rel: "self", method: "GET"),
+            new (_urlHelper.Link(nameof(PutProduct), new { id = product.Id })!, rel: "update-product", method: "PUT"),
+            new (_urlHelper.Link(nameof(DeleteProduct), new { id = product.Id })!, rel: "delete-product", method: "DELETE")
+        };
+
+        var productHateoas = LinksGenerateHateoas(product, rels.ToArray());
 
         return Ok(productHateoas);
     }
@@ -49,7 +65,15 @@ public class ProductsController : ControllerBase
 
         foreach(var product in products) 
         {
-            var productHateoas = LinksGenerateHateoas(product, "get-products");
+            List<LinkModel> rels = new()
+            {
+                new (_urlHelper.Link(nameof(GetProducts), new { })!, rel: "self", method: "GET"),
+                new (_urlHelper.Link(nameof(GetProduct), new { product.Id })!, rel: "get-product", method: "GET"),
+                new (_urlHelper.Link(nameof(PutProduct), new { id = product.Id })!, rel: "update-product", method: "PUT"),
+                new (_urlHelper.Link(nameof(DeleteProduct), new { id = product.Id })!, rel: "delete-product", method: "DELETE")
+            };
+
+            var productHateoas = LinksGenerateHateoas(product, rels.ToArray());
             listProductsHateoas.Add(productHateoas);
         }
 
@@ -65,8 +89,14 @@ public class ProductsController : ControllerBase
     {
         var product = new Product(model.Name, model.Price);
 
-        var productHateoas = LinksGenerateHateoas(product, "update-product");
+        List<LinkModel> rels = new()
+        {
+            new (_urlHelper.Link(nameof(PutProduct), new { id = product.Id })!, rel: "self", method: "PUT"),
+            new (_urlHelper.Link(nameof(GetProduct), new { product.Id })!, rel: "get-product", method: "GET"),
+            new (_urlHelper.Link(nameof(DeleteProduct), new { id = product.Id })!, rel: "delete-product", method: "DELETE")
+        };
 
+        var productHateoas = LinksGenerateHateoas(product, rels.ToArray());
         
         return Ok(productHateoas);
     }
@@ -74,22 +104,20 @@ public class ProductsController : ControllerBase
     [HttpDelete("{id}", Name = nameof(DeleteProduct))]
     public IActionResult DeleteProduct([FromRoute] Guid id)
     {
-        var productHateoas = LinksGenerateHateoas(null, "delete-product");
+        List<LinkModel> rels = new()
+        {
+            new (_urlHelper.Link(nameof(DeleteProduct), new { id })!, rel: "self", method: "DELETE"),
+            new (_urlHelper.Link(nameof(CreateProduct), new { })!, rel: "create-product", method: "POST"),
+            new (_urlHelper.Link(nameof(GetProducts), new { })!, rel: "get-products", method: "GET")
+        };
+
+        var productHateoas = LinksGenerateHateoas(null, rels.ToArray());
         return Ok(productHateoas);
     }
 
-    private object LinksGenerateHateoas(Product? product, string rel) 
+    private object LinksGenerateHateoas(Product? product, LinkModel[] rels) 
     {
-        List<LinkModel> links = new()
-        {
-            new (_urlHelper.Link(nameof(CreateProduct), new { })!, rel: "create-product", method: "POST"),
-            new (_urlHelper.Link(nameof(GetProducts), new { })!, rel: "get-products", method: "GET"),
-            new (_urlHelper.Link(nameof(GetProduct), new { product?.Id })!, rel: "get-product", method: "GET"),
-            new (_urlHelper.Link(nameof(PutProduct), new { id = product?.Id })!, rel: "update-product", method: "PUT"),
-            new (_urlHelper.Link(nameof(DeleteProduct), new { id = product?.Id })!, rel: "delete-product", method: "DELETE")
-        };
-
         return new ResourceHateoas<Product>()
-            .GenerateLinksHateoas(product, links.ToArray(), "product", rel);
+            .GenerateLinksHateoas(product, rels, "product");
     }
 }

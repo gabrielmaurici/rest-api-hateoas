@@ -12,9 +12,4 @@ public class LinkModel
     public string Href { get; private set; }
     public string Rel { get; private set; }
     public string Method { get; private set; }
-
-    public void UpdateSelfLink() 
-    {
-        Rel = "self";
-    }
 }

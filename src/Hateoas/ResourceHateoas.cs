@@ -2,11 +2,8 @@ namespace rest_api_hateoas.Hateoas;
 
 public class ResourceHateoas<TModel> where TModel : class
 {
-    public object GenerateLinksHateoas(TModel? model, LinkModel[] links, string propertyName, string rel) 
+    public object GenerateLinksHateoas(TModel? model, LinkModel[] links, string propertyName) 
     {
-        var self = links.First(x => x.Rel.Equals(rel));
-        self.UpdateSelfLink();
-
         return new Dictionary<string, object?>
         {
             [propertyName] = model,
