@@ -6,7 +6,7 @@ Para rodar o projeto entre na pasta rest-api-hateoas e rode o comando docker com
 As classes criadas para o HATEOAS se encontram na pasta Hateoas, sendo elas LinkModel e ResourceHateoas
 
 Classe LinkModel: Modelo para gerar os links dos recursos disponíveis na API e método para atualizar o rel para self quando for o recurso da vez
-<img src="images/link-model.png" alt="link-model" style="align=left width= 100%">
+<img src="images/link-model.png" alt="link-model" style="width=100%">
 
 Classe ResourceHateoas: Possui um método para retornar de forma dinâmica qualquer modelo de dados junto do array de LinkModel em formato de objeto 
 ![resource-hateoas](images/resource-hateoas.png)
