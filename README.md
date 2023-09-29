@@ -12,7 +12,7 @@ Classe ResourceHateoas: Possui um método para retornar de forma dinâmica qualq
 ![resource-hateoas](images/resource-hateoas.png)
 
 
-Para utilização das classes foi criasdo um método na ProductsController onde recebe o Product e o recurso da vez, para criar a lista de recuros e gerar o retorno HATEOAS
+Para utilização das classes foi criado um método na ProductsController onde recebe o Product e o recurso da vez, para criar a lista de recuros e gerar o retorno HATEOAS
 ![controller](images/controller.png)
 
 
